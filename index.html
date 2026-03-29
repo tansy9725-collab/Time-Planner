@@ -512,6 +512,28 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
   </div>
 
   <div class="card">
+    <div class="sec-title"><i data-lucide="key" style="width:13px;height:13px;margin-right:5px"></i>AI 复盘配置</div>
+    <div class="xs muted mt8 mb12" style="line-height:1.6">选择 API 提供商并填入 Key 以启用 AI 复盘功能</div>
+    <div class="row g4 mt8 mb12 wrap" id="aiProviderBtns">
+      <button class="btn btn-s" data-prov="qwen" onclick="onAiProviderChange('qwen')">通义千问</button>
+      <button class="btn btn-s" data-prov="openai" onclick="onAiProviderChange('openai')">OpenAI</button>
+      <button class="btn btn-s" data-prov="deepseek" onclick="onAiProviderChange('deepseek')">DeepSeek</button>
+      <button class="btn btn-s" data-prov="custom" onclick="onAiProviderChange('custom')">自定义</button>
+    </div>
+    <div id="aiProviderInfo" class="xs muted mb8" style="line-height:1.5"></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <input type="password" id="aiKeyInput" placeholder="sk-..." style="width:100%">
+      <input type="text" id="aiEndpointInput" placeholder="接口地址 https://..." style="width:100%;display:none">
+      <input type="text" id="aiModelInput" placeholder="模型名称" style="width:100%;display:none">
+    </div>
+    <div class="row g8 mt12" style="align-items:center">
+      <button class="btn btn-p" onclick="saveAiConfig()">保存</button>
+      <span id="aiSaveHint" class="xs" style="color:#10b981;opacity:0;transition:opacity .3s"></span>
+    </div>
+    <div class="xs muted mt12" style="line-height:1.6">您的 API Key 仅保存在本地浏览器中，不会上传到任何服务器</div>
+  </div>
+
+  <div class="card">
     <div class="sec-title"><i data-lucide="bell" style="width:13px;height:13px;margin-right:5px"></i>通知提醒</div>
     <div class="row jb" style="padding:8px 0">
       <div>
@@ -1389,7 +1411,93 @@ function journalCardHTML(k, len, val) {
         oninput="saveJournal('${k}');updateJournalCount()">${val}</textarea>
       <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="语音输入"><i data-lucide="mic" style="width:16px;height:16px"></i></button>
     </div>
+    <button id="aiReviewBtn" class="btn btn-p" style="width:100%;margin-top:12px"
+      onclick="aiReview('${k}')"
+      ${aiConfigured() ? '' : 'disabled'}
+    >${aiConfigured() ? '✨ AI帮我复盘今天' : '请先在设置中配置 API Key'}</button>
+    ${location.protocol === 'file:' ? '<div class="xs mt8" style="color:#f59e0b;line-height:1.6;text-align:center">⚠ 检测到通过本地文件打开，AI 功能可能因跨域限制无法使用。请通过服务器访问，或直接访问线上版本</div>' : ''}
+    <div id="aiResultCard" style="display:none;margin-top:12px">
+      <div class="xs muted mb8" style="display:flex;align-items:center;gap:6px"><i data-lucide="sparkles" style="width:12px;height:12px;color:var(--accent)"></i>AI复盘（可直接编辑）</div>
+      <textarea id="aiResultTA" style="width:100%;min-height:120px;line-height:1.7" placeholder=""></textarea>
+    </div>
   </div>`;
+}
+
+// ─────────────────────────────────────────────────────────────
+// AI REVIEW
+// ─────────────────────────────────────────────────────────────
+async function aiReview(k) {
+  const btn        = document.getElementById('aiReviewBtn');
+  const resultCard = document.getElementById('aiResultCard');
+  const resultTA   = document.getElementById('aiResultTA');
+
+  btn.disabled    = true;
+  btn.textContent = 'AI思考中...';
+
+  const data  = getDay(k);
+  const s     = getSettings();
+  const tasks = data?.tasks || [];
+  const done  = tasks.filter(t => t.status === 'done').length;
+  const total = tasks.length;
+  const pct   = total ? Math.round(done / total * 100) : 0;
+
+  const taskLines = tasks.length
+    ? tasks.map(t => {
+        const est  = t.estimatedMin;
+        const act  = t.actualSec != null ? Math.round(t.actualSec / 60) : null;
+        const diff = act != null ? act - est : null;
+        const diffTxt = diff == null ? '未计时'
+          : diff > 0  ? `超出${diff}分`
+          : diff < 0  ? `节省${Math.abs(diff)}分`
+          : '刚好';
+        const tags = [...(t.tags || []), ...(t.reviewTags || [])].join('、');
+        return `- ${t.name}（预估${est}分 / 实际${act != null ? act + '分' : '--'} / ${diffTxt}${tags ? ' / 标签：' + tags : ''}）[${t.status === 'done' ? '已完成' : '未完成'}]`;
+      }).join('\n')
+    : '无任务记录';
+
+  const journal = (data?.journal || '').trim();
+
+  const userContent =
+    `今天任务完成情况（${done}/${total}，完成率 ${pct}%）：\n${taskLines}\n\n今日随想：${journal || '（无）'}`;
+
+  const PERSONAS = {
+    rational:    '你是一个严谨的时间管理分析师，用客观数据说话，语气冷静理性，指出具体的时间差数据和规律，给出可执行的改进建议，100-150字',
+    enthusiastic:'你是一个充满活力的效率教练，语气热情积极，先肯定用户今天的努力，再用鼓励的方式指出可以改进的地方，让用户对明天充满期待，100-150字',
+    strict:      '你是一个严格的时间管理导师，语气直接不客气，直接指出今天存在的问题和拖延行为，督促用户反思，但最后给出一句鼓励，100-150字'
+  };
+  const systemPrompt = PERSONAS[s.persona] || PERSONAS.rational;
+
+  const aiCfg = getAiConfig();
+  const prov  = AI_PROVIDERS[aiCfg.provider] || AI_PROVIDERS.qwen;
+  const endpoint = aiCfg.provider === 'custom' ? aiCfg.customEndpoint : prov.endpoint;
+  const model    = aiCfg.provider === 'custom' ? aiCfg.customModel    : prov.model;
+
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + aiCfg.apiKey
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user',   content: userContent  }
+        ]
+      })
+    });
+    if (!res.ok) throw new Error(`请求失败 (${res.status})`);
+    const json = await res.json();
+    resultTA.value = json.choices?.[0]?.message?.content || '生成失败，请重试';
+  } catch (e) {
+    resultTA.value = '请求出错：' + e.message;
+  }
+
+  resultCard.style.display = 'block';
+  btn.disabled    = false;
+  btn.textContent = '重新生成';
+  if (window.lucide) lucide.createIcons();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -1663,6 +1771,13 @@ function renderSettings() {
     btn.style.borderColor = active ? 'var(--accent)' : '';
     btn.style.color       = active ? 'var(--accent)' : '';
   });
+  // ai config
+  const aiCfg = getAiConfig();
+  const aiProv = aiCfg.provider || 'qwen';
+  onAiProviderChange(aiProv);
+  document.getElementById('aiKeyInput').value = aiCfg.apiKey || '';
+  if (aiCfg.customEndpoint) document.getElementById('aiEndpointInput').value = aiCfg.customEndpoint;
+  if (aiCfg.customModel) document.getElementById('aiModelInput').value = aiCfg.customModel;
   // toggle
   document.getElementById('notifToggle').classList.toggle('on', !!s.notifications);
   // stats
@@ -1732,6 +1847,57 @@ function setMode(mode) {
 function setPersona(el) {
   const s = getSettings(); s.persona = el.dataset.persona;
   saveSettings(s); renderSettings();
+}
+
+const AI_PROVIDERS = {
+  qwen:     { name:'通义千问', endpoint:'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', model:'qwen-turbo' },
+  openai:   { name:'OpenAI',   endpoint:'https://api.openai.com/v1/chat/completions', model:'gpt-4o-mini' },
+  deepseek: { name:'DeepSeek', endpoint:'https://api.deepseek.com/v1/chat/completions', model:'deepseek-chat' },
+  custom:   { name:'自定义' }
+};
+
+function getAiConfig() {
+  try { return JSON.parse(localStorage.getItem('ai_config')) || {}; } catch { return {}; }
+}
+
+function onAiProviderChange(prov) {
+  document.querySelectorAll('#aiProviderBtns [data-prov]').forEach(b => {
+    const on = b.dataset.prov === prov;
+    b.style.background   = on ? 'rgba(124,58,237,.2)' : '';
+    b.style.borderColor  = on ? 'var(--accent)' : '';
+    b.style.color        = on ? 'var(--accent)' : '';
+  });
+  const isCustom = prov === 'custom';
+  document.getElementById('aiEndpointInput').style.display = isCustom ? '' : 'none';
+  document.getElementById('aiModelInput').style.display    = isCustom ? '' : 'none';
+  const info = document.getElementById('aiProviderInfo');
+  if (!isCustom) {
+    const p = AI_PROVIDERS[prov];
+    info.innerHTML = `接口：${p.endpoint}<br>模型：${p.model}`;
+  } else {
+    info.textContent = '请填写自定义接口地址和模型名称';
+  }
+  document.getElementById('aiKeyInput').dataset.prov = prov;
+}
+
+function saveAiConfig() {
+  const prov     = document.getElementById('aiKeyInput').dataset.prov || 'qwen';
+  const apiKey   = (document.getElementById('aiKeyInput').value || '').trim();
+  const cfg = { provider: prov, apiKey };
+  if (prov === 'custom') {
+    cfg.customEndpoint = (document.getElementById('aiEndpointInput').value || '').trim();
+    cfg.customModel    = (document.getElementById('aiModelInput').value || '').trim();
+  }
+  localStorage.setItem('ai_config', JSON.stringify(cfg));
+  const hint = document.getElementById('aiSaveHint');
+  hint.textContent = '✓ 已保存';
+  hint.style.opacity = '1';
+  setTimeout(() => { hint.style.opacity = '0'; }, 2000);
+}
+
+function aiConfigured() {
+  const c = getAiConfig();
+  return !!(c.apiKey);
 }
 
 function toggleNotif() {
