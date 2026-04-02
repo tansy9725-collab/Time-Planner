@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -343,11 +343,11 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
 <nav>
   <div class="logo"><i data-lucide="clock" style="width:16px;height:16px;color:var(--accent)"></i><span id="logoText">Time Planner for You</span></div>
   <div class="nav-links">
-    <button class="nav-btn active" data-p="today">今日计划</button>
-    <button class="nav-btn" data-p="focus">专注计时</button>
-    <button class="nav-btn" data-p="time">感知时间</button>
-    <button class="nav-btn" data-p="review">复盘</button>
-    <button class="nav-btn" data-p="settings">设置</button>
+    <button class="nav-btn active" data-p="today" data-i18n="nav.today">Today</button>
+    <button class="nav-btn" data-p="focus" data-i18n="nav.focus">Focus</button>
+    <button class="nav-btn" data-p="time" data-i18n="nav.time">Time</button>
+    <button class="nav-btn" data-p="review" data-i18n="nav.review">Review</button>
+    <button class="nav-btn" data-p="settings" data-i18n="nav.settings">Settings</button>
   </div>
   <div class="nav-av" id="navAv">T</div>
 </nav>
@@ -358,23 +358,23 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
 <div class="page active" id="pg-today">
   <div class="row jb mb12">
     <div>
-      <div class="pg-title" id="todayTitle">今日计划</div>
-      <div class="pg-sub" id="todayProg">0 / 0 任务完成</div>
+      <div class="pg-title" id="todayTitle">Today's Plan</div>
+      <div class="pg-sub" id="todayProg">0 / 0 tasks completed</div>
     </div>
   </div>
 
   <div class="card">
-    <div class="sec-title">添加任务</div>
+    <div class="sec-title" data-i18n="today.addTask">Add Task</div>
     <div class="row wrap g8">
-      <input type="text" id="tName" placeholder="任务名称..." style="flex:1;min-width:180px">
-      <input type="number" id="tMin" placeholder="预计分钟" style="width:120px" min="1">
-      <button class="btn btn-p" onclick="addTask()"><i data-lucide="plus" style="width:15px;height:15px"></i> 添加</button>
+      <input type="text" id="tName" data-i18n-placeholder="today.taskName" placeholder="Task name..." style="flex:1;min-width:180px">
+      <input type="number" id="tMin" data-i18n-placeholder="today.estMin" placeholder="Est. minutes" style="width:120px" min="1">
+      <button class="btn btn-p" onclick="addTask()"><i data-lucide="plus" style="width:15px;height:15px"></i> <span data-i18n="today.add">Add</span></button>
     </div>
     <div style="margin-top:12px">
-      <div class="xs muted" style="margin-bottom:8px">任务标签</div>
+      <div class="xs muted" style="margin-bottom:8px" data-i18n="today.taskTags">Task Tags</div>
       <div id="addTagArea" class="row wrap g6"></div>
       <div id="customAddTagWrap" style="display:none;margin-top:8px">
-        <input type="text" id="customAddTagInput" placeholder="输入自定义标签后按回车..."
+        <input type="text" id="customAddTagInput" data-i18n-placeholder="today.customTagHint" placeholder="Type custom tag and press Enter..."
           style="width:100%;font-size:13px;padding:7px 12px"
           onkeydown="if(event.key==='Enter')submitCustomAddTag()">
       </div>
@@ -383,14 +383,14 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
 
   <div class="card">
     <div class="row jb mb8">
-      <div class="sec-title" style="margin:0">任务列表</div>
+      <div class="sec-title" style="margin:0" data-i18n="today.taskList">Task List</div>
       <div class="row g8" id="taskBtns" style="display:none"></div>
     </div>
-    <div id="taskList"><div class="empty">还没有任务，添加一个吧！</div></div>
+    <div id="taskList"><div class="empty" data-i18n="today.empty">No tasks yet, add one!</div></div>
   </div>
 
   <div class="card" id="chartCard" style="display:none">
-    <div class="sec-title">今日时间概览</div>
+    <div class="sec-title" data-i18n="today.overview">Today's Time Overview</div>
     <canvas id="todayChart" style="max-height:260px"></canvas>
   </div>
 </div>
@@ -401,9 +401,9 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
 
     <!-- Mode tabs -->
     <div class="tabs" style="max-width:340px;width:100%;margin-bottom:28px">
-      <button class="tab active" data-m="clock" onclick="setFMode('clock')">当前时间</button>
-      <button class="tab" data-m="down"  onclick="setFMode('down')">倒计时</button>
-      <button class="tab" data-m="up"    onclick="setFMode('up')">正计时</button>
+      <button class="tab active" data-m="clock" onclick="setFMode('clock')" data-i18n="focus.clock">Clock</button>
+      <button class="tab" data-m="down"  onclick="setFMode('down')" data-i18n="focus.down">Countdown</button>
+      <button class="tab" data-m="up"    onclick="setFMode('up')" data-i18n="focus.up">Stopwatch</button>
     </div>
 
     <!-- Clock mode: date -->
@@ -430,7 +430,7 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
       <div id="fClockQuote" style="font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:rgba(255,255,255,0.38);margin-bottom:18px;min-height:24px"></div>
       <div id="fTodayStats" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;font-size:13px;color:var(--muted)">
         <span style="font-size:16px">⏱</span>
-        <span>今日已专注 <span id="fTodayMin" style="color:var(--accent);font-weight:600">0</span> 分钟</span>
+        <span><span data-i18n="focus.todayFocus">Focused today</span> <span id="fTodayMin" style="color:var(--accent);font-weight:600">0</span> <span data-i18n="focus.minutes">min</span></span>
       </div>
     </div>
 
@@ -440,22 +440,22 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
     <!-- Countdown presets -->
     <div id="downPresets" style="display:none;margin-top:20px;margin-bottom:4px">
       <div class="row g8 jc wrap mb12">
-        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="setDown(15)">15 分</button>
-        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="setDown(30)">30 分</button>
-        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="setDown(45)">45 分</button>
-        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="setDown(60)">60 分</button>
-        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="toggleCustomDown()">自定义</button>
+        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="setDown(15)">15 min</button>
+        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="setDown(30)">30 min</button>
+        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="setDown(45)">45 min</button>
+        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="setDown(60)">60 min</button>
+        <button class="btn btn-s" style="font-size:13px;padding:8px 16px" onclick="toggleCustomDown()" data-i18n="focus.custom">Custom</button>
       </div>
       <div id="customDownWrap" class="row g8 jc" style="display:none;margin-bottom:8px">
-        <input type="number" id="customMin" placeholder="输入分钟" style="width:130px;text-align:center" min="1">
-        <button class="btn btn-p" onclick="setCustomDown()">确认</button>
+        <input type="number" id="customMin" data-i18n-placeholder="focus.enterMin" placeholder="Enter minutes" style="width:130px;text-align:center" min="1">
+        <button class="btn btn-p" onclick="setCustomDown()" data-i18n="focus.confirm">Confirm</button>
       </div>
     </div>
 
     <!-- Controls -->
     <div id="fControls" class="row g12 jc" style="display:none;margin-bottom:4px">
-      <button class="btn btn-p" id="fStartBtn" onclick="toggleFTimer()" style="min-width:88px">开始</button>
-      <button class="btn btn-s" onclick="resetFTimer()">重置</button>
+      <button class="btn btn-p" id="fStartBtn" onclick="toggleFTimer()" style="min-width:88px" data-i18n="focus.start">Start</button>
+      <button class="btn btn-s" onclick="resetFTimer()" data-i18n="focus.reset">Reset</button>
     </div>
 
     <!-- Timer mode: status hint -->
@@ -463,22 +463,22 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
 
     <!-- Done hint -->
     <div id="fDoneHint" style="display:none;margin-top:20px;font-size:14px;cursor:pointer;color:var(--accent)" onclick="goPage('today')">
-      ✓ 记录到今日计划 →
+      <span data-i18n="focus.recordHint">✓ Record to today's plan →</span>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════ PAGE 3: 感知时间 ═══════════════════ -->
 <div class="page" id="pg-time">
-  <div class="pg-title">感知时间</div>
-  <div class="pg-sub">感受时间的流逝</div>
+  <div class="pg-title" data-i18n="time.title">Time Awareness</div>
+  <div class="pg-sub" data-i18n="time.sub">Feel the passage of time</div>
   <div id="timeGrid"></div>
 </div>
 
 <!-- ═══════════════════ PAGE 4: 复盘 ═══════════════════ -->
 <div class="page" id="pg-review">
-  <div class="pg-title">复盘</div>
-  <div class="pg-sub">回顾每一天</div>
+  <div class="pg-title" data-i18n="review.title">Review</div>
+  <div class="pg-sub" data-i18n="review.sub">Look back on each day</div>
 
   <div class="card" style="padding:20px">
     <div class="cal-wrap">
@@ -501,22 +501,22 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
   </div>
 
   <div class="card" id="weekChartCard">
-    <div class="sec-title" style="margin-bottom:12px"><i data-lucide="trending-up" style="width:13px;height:13px;margin-right:5px"></i>本周完成率</div>
+    <div class="sec-title" style="margin-bottom:12px"><i data-lucide="trending-up" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="review.weekRate">Weekly Completion</span></div>
     <div style="height:160px;position:relative"><canvas id="weekChart"></canvas></div>
   </div>
 
   <div id="reviewBody">
-    <div class="card"><div class="empty">点击日历查看当天数据</div></div>
+    <div class="card"><div class="empty" data-i18n="review.clickCal">Click a date to view data</div></div>
   </div>
 </div>
 
 <!-- ═══════════════════ PAGE 5: 设置 ═══════════════════ -->
 <div class="page" id="pg-settings">
-  <div class="pg-title">设置</div>
-  <div class="pg-sub">个性化你的规划器</div>
+  <div class="pg-title" data-i18n="set.title">Settings</div>
+  <div class="pg-sub" data-i18n="set.sub">Personalize your planner</div>
 
   <div class="card">
-    <div class="sec-title"><i data-lucide="user" style="width:13px;height:13px;margin-right:5px"></i>个人资料</div>
+    <div class="sec-title"><i data-lucide="user" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="set.profile">Profile</span></div>
     <div class="row g16 mt8">
       <div style="position:relative;cursor:pointer" onclick="document.getElementById('avFile').click()">
         <div class="nav-av" id="settingsAv" style="width:64px;height:64px;font-size:24px">T</div>
@@ -524,25 +524,33 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
       </div>
       <input type="file" id="avFile" accept="image/*" style="display:none" onchange="handleAv(event)">
       <div style="flex:1">
-        <div class="xs muted mb8">用户名</div>
+        <div class="xs muted mb8" data-i18n="set.username">Username</div>
         <div class="row g8">
-          <input type="text" id="unameInput" placeholder="输入用户名..." style="flex:1">
-          <button class="btn btn-p" onclick="saveUname()">保存</button>
+          <input type="text" id="unameInput" data-i18n-placeholder="set.usernamePh" placeholder="Enter username..." style="flex:1">
+          <button class="btn btn-p" onclick="saveUname()" data-i18n="set.save">Save</button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="sec-title"><i data-lucide="sun" style="width:13px;height:13px;margin-right:5px"></i>外观</div>
+    <div class="sec-title"><i data-lucide="sun" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="set.appearance">Appearance</span></div>
     <div class="row g8 mt8">
-      <button id="modeDark" class="btn btn-s" style="flex:1" onclick="setMode('dark')">🌙 深色</button>
-      <button id="modeLight" class="btn btn-s" style="flex:1" onclick="setMode('light')">☀️ 浅色</button>
+      <button id="modeDark" class="btn btn-s" style="flex:1" onclick="setMode('dark')" data-i18n="set.dark">🌙 Dark</button>
+      <button id="modeLight" class="btn btn-s" style="flex:1" onclick="setMode('light')" data-i18n="set.light">☀️ Light</button>
     </div>
   </div>
 
   <div class="card">
-    <div class="sec-title"><i data-lucide="palette" style="width:13px;height:13px;margin-right:5px"></i>主题色</div>
+    <div class="sec-title"><i data-lucide="globe" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="set.language">Language</span></div>
+    <div class="row g8 mt8">
+      <button id="langZh" class="btn btn-s" style="flex:1" onclick="setLang('zh')">🇨🇳 中文</button>
+      <button id="langEn" class="btn btn-s" style="flex:1" onclick="setLang('en')">🇺🇸 English</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title"><i data-lucide="palette" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="set.themeColor">Theme Color</span></div>
     <div class="row g12 mt8">
       <div class="swatch on" style="background:#7c3aed" data-c="#7c3aed" data-h="#6d28d9" onclick="applySwatchTheme(this)"></div>
       <div class="swatch" style="background:#2563eb" data-c="#2563eb" data-h="#1d4ed8" onclick="applySwatchTheme(this)"></div>
@@ -552,68 +560,68 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
   </div>
 
   <div class="card">
-    <div class="sec-title"><i data-lucide="bot" style="width:13px;height:13px;margin-right:5px"></i>AI 人设</div>
+    <div class="sec-title"><i data-lucide="bot" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="set.aiPersona">AI Persona</span></div>
     <div class="row g8 mt8 wrap">
-      <button class="btn btn-s" data-persona="rational" onclick="setPersona(this)">🧠 理性型</button>
-      <button class="btn btn-s" data-persona="enthusiastic" onclick="setPersona(this)">🔥 热情型</button>
-      <button class="btn btn-s" data-persona="strict" onclick="setPersona(this)">💪 严厉型</button>
+      <button class="btn btn-s" data-persona="rational" onclick="setPersona(this)" data-i18n="set.rational">🧠 Analytical</button>
+      <button class="btn btn-s" data-persona="enthusiastic" onclick="setPersona(this)" data-i18n="set.enthusiastic">🔥 Enthusiastic</button>
+      <button class="btn btn-s" data-persona="strict" onclick="setPersona(this)" data-i18n="set.strict">💪 Strict</button>
     </div>
-    <div class="xs muted mt8">为后续接入 AI 功能做准备</div>
+    <div class="xs muted mt8" data-i18n="set.aiHint">For AI review feature</div>
   </div>
 
   <div class="card">
-    <div class="sec-title"><i data-lucide="key" style="width:13px;height:13px;margin-right:5px"></i>AI 复盘配置</div>
-    <div class="xs muted mt8 mb12" style="line-height:1.6">选择 API 提供商并填入 Key 以启用 AI 复盘功能</div>
+    <div class="sec-title"><i data-lucide="key" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="set.aiConfig">AI Review Config</span></div>
+    <div class="xs muted mt8 mb12" style="line-height:1.6" data-i18n="set.aiConfigDesc">Select provider and enter Key to enable AI review</div>
     <div class="row g4 mt8 mb12 wrap" id="aiProviderBtns">
-      <button class="btn btn-s" data-prov="qwen" onclick="onAiProviderChange('qwen')">通义千问</button>
+      <button class="btn btn-s" data-prov="qwen" onclick="onAiProviderChange('qwen')" data-i18n="set.qwen">Qwen</button>
       <button class="btn btn-s" data-prov="openai" onclick="onAiProviderChange('openai')">OpenAI</button>
       <button class="btn btn-s" data-prov="deepseek" onclick="onAiProviderChange('deepseek')">DeepSeek</button>
-      <button class="btn btn-s" data-prov="custom" onclick="onAiProviderChange('custom')">自定义</button>
+      <button class="btn btn-s" data-prov="custom" onclick="onAiProviderChange('custom')" data-i18n="set.custom">Custom</button>
     </div>
     <div id="aiProviderInfo" class="xs muted mb8" style="line-height:1.5"></div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <input type="password" id="aiKeyInput" placeholder="sk-..." style="width:100%">
-      <input type="text" id="aiEndpointInput" placeholder="接口地址 https://..." style="width:100%;display:none">
-      <input type="text" id="aiModelInput" placeholder="模型名称" style="width:100%;display:none">
+      <input type="text" id="aiEndpointInput" data-i18n-placeholder="set.endpoint" placeholder="Endpoint URL https://..." style="width:100%;display:none">
+      <input type="text" id="aiModelInput" data-i18n-placeholder="set.modelName" placeholder="Model name" style="width:100%;display:none">
     </div>
     <div class="row g8 mt12" style="align-items:center">
-      <button class="btn btn-p" onclick="saveAiConfig()">保存</button>
+      <button class="btn btn-p" onclick="saveAiConfig()" data-i18n="set.save">Save</button>
       <span id="aiSaveHint" class="xs" style="color:#10b981;opacity:0;transition:opacity .3s"></span>
     </div>
-    <div class="xs muted mt12" style="line-height:1.6">您的 API Key 仅保存在本地浏览器中，不会上传到任何服务器</div>
+    <div class="xs muted mt12" style="line-height:1.6" data-i18n="set.apiKeyLocal">Your API Key is stored locally only and never uploaded</div>
   </div>
 
   <div class="card">
-    <div class="sec-title"><i data-lucide="bell" style="width:13px;height:13px;margin-right:5px"></i>通知提醒</div>
+    <div class="sec-title"><i data-lucide="bell" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="set.notification">Notifications</span></div>
     <div class="row jb" style="padding:8px 0">
       <div>
-        <div style="font-size:14px">任务超时提醒</div>
-        <div class="xs muted mt4">任务超出预计时间时提醒</div>
+        <div style="font-size:14px" data-i18n="set.taskTimeout">Task Timeout Alert</div>
+        <div class="xs muted mt4" data-i18n="set.taskTimeoutDesc">Alert when task exceeds estimated time</div>
       </div>
       <div class="toggle" id="notifToggle" onclick="toggleNotif()"></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="sec-title"><i data-lucide="bar-chart-2" style="width:13px;height:13px;margin-right:5px"></i>数据统计</div>
+    <div class="sec-title"><i data-lucide="bar-chart-2" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="set.stats">Statistics</span></div>
     <div class="grid2 mt8">
       <div style="text-align:center;padding:12px">
         <div class="stat-val" id="statFocus">0m</div>
-        <div class="stat-lbl">累计专注总时长</div>
+        <div class="stat-lbl" data-i18n="set.totalFocus">Total Focus Time</div>
       </div>
       <div style="text-align:center;padding:12px">
         <div class="stat-val" id="statAcc">--</div>
-        <div class="stat-lbl">时间准确率</div>
-        <div class="xs muted" style="margin-top:6px;line-height:1.5">越接近100%<br>说明你的时间感知越准确</div>
+        <div class="stat-lbl" data-i18n="set.accuracy">Time Accuracy</div>
+        <div class="xs muted" style="margin-top:6px;line-height:1.5" data-i18n-html="set.accuracyHint">Closer to 100% = more accurate time perception</div>
       </div>
     </div>
   </div>
 
   <div class="card" style="border-color:rgba(239,68,68,0.3)">
-    <div class="sec-title" style="color:#ef4444"><i data-lucide="alert-triangle" style="width:13px;height:13px;margin-right:5px"></i>危险区</div>
+    <div class="sec-title" style="color:#ef4444"><i data-lucide="alert-triangle" style="width:13px;height:13px;margin-right:5px"></i><span data-i18n="set.danger">Danger Zone</span></div>
     <div class="row g12 mt8 wrap">
-      <button class="btn btn-d" onclick="clearToday()">清除今日数据</button>
-      <button class="btn btn-d" onclick="clearAll()">清除所有数据</button>
+      <button class="btn btn-d" onclick="clearToday()" data-i18n="set.clearToday">Clear Today</button>
+      <button class="btn btn-d" onclick="clearAll()" data-i18n="set.clearAll">Clear All Data</button>
     </div>
   </div>
 </div>
@@ -623,18 +631,18 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
 <!-- ═══════════════════ TASK FLOAT WIDGET ═══════════════════ -->
 <div id="taskFloat" class="task-float hide">
   <div class="tf-header" id="tfDrag">
-    <div id="tfTaskName" class="tf-name">任务名称</div>
+    <div id="tfTaskName" class="tf-name" data-i18n="overlay.taskName">Task Name</div>
     <div class="tf-btns">
-      <button class="tf-icon-btn" id="tfFullBtn" onclick="toggleFullFloat()" title="全屏"><i data-lucide="maximize-2" style="width:13px;height:13px"></i></button>
-      <button class="tf-icon-btn" onclick="toggleMinFloat()" title="最小化"><i data-lucide="minus" style="width:14px;height:14px"></i></button>
-      <button class="tf-icon-btn" onclick="cancelOverlay()" title="关闭"><i data-lucide="x" style="width:14px;height:14px"></i></button>
+      <button class="tf-icon-btn" id="tfFullBtn" onclick="toggleFullFloat()" data-i18n-title="overlay.fullscreen" title="Fullscreen"><i data-lucide="maximize-2" style="width:13px;height:13px"></i></button>
+      <button class="tf-icon-btn" onclick="toggleMinFloat()" data-i18n-title="overlay.minimize" title="Minimize"><i data-lucide="minus" style="width:14px;height:14px"></i></button>
+      <button class="tf-icon-btn" onclick="cancelOverlay()" data-i18n-title="overlay.close" title="Close"><i data-lucide="x" style="width:14px;height:14px"></i></button>
     </div>
   </div>
   <div class="tf-body" id="tfBody">
-    <div id="oPhase" class="tf-phase">先做5分钟 💪</div>
+    <div id="oPhase" class="tf-phase" data-i18n="overlay.phase1">Just 5 minutes 💪</div>
     <div id="oClockWrap" class="tf-clock"></div>
     <div id="tfDoneWrap" class="tf-done" style="display:none">
-      <button class="btn btn-p" style="width:100%;font-size:13px;padding:10px 0" onclick="doneTask()">✅ 完成任务</button>
+      <button class="btn btn-p" style="width:100%;font-size:13px;padding:10px 0" onclick="doneTask()" data-i18n="overlay.done">✅ Complete Task</button>
     </div>
   </div>
   <div class="tf-mini-time" id="tfMiniTime" style="display:none">00:00</div>
@@ -645,10 +653,10 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
 <div class="rand-confirm-back hide" id="randConfirm">
   <div class="rand-confirm">
     <div class="rc-name" id="rcName"></div>
-    <div class="rc-sub">就决定是你了！准备好了吗？</div>
+    <div class="rc-sub" data-i18n="rand.ready">It's you! Ready?</div>
     <div class="row g8 jc">
-      <button class="btn btn-p" style="flex:1" onclick="confirmRandom()">🚀 开始吧！</button>
-      <button class="btn btn-s" style="flex:1" onclick="reRandom()">🔄 再抽一次</button>
+      <button class="btn btn-p" style="flex:1" onclick="confirmRandom()" data-i18n="rand.go">🚀 Let's go!</button>
+      <button class="btn btn-s" style="flex:1" onclick="reRandom()" data-i18n="rand.reroll">🔄 Reroll</button>
     </div>
   </div>
 </div>
@@ -656,26 +664,26 @@ html.light .card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.12)}
 <!-- ═══════════════════ AI PICK MODAL ═══════════════════ -->
 <div class="overlay hide" id="pickModal">
   <div class="card" style="max-width:420px;width:90%;max-height:80vh;overflow-y:auto">
-    <div style="font-size:17px;font-weight:700;margin-bottom:14px">✋ 选择要开始的任务</div>
+    <div style="font-size:17px;font-weight:700;margin-bottom:14px" data-i18n="pick.title">✋ Pick a task</div>
     <div id="pickList"></div>
-    <button class="btn btn-s w100" style="margin-top:12px" onclick="closePick()">取消</button>
+    <button class="btn btn-s w100" style="margin-top:12px" onclick="closePick()" data-i18n="pick.cancel">Cancel</button>
   </div>
 </div>
 
 <!-- ═══════════════════ ATTRIBUTION MODAL ═══════════════════ -->
 <div class="modal-back hide" id="revModal">
   <div class="modal-box">
-    <div style="font-size:17px;font-weight:700;margin-bottom:4px">这次完成情况怎么样？</div>
-    <div class="xs muted" style="margin-bottom:16px">选择标签，可多选（可跳过）</div>
+    <div style="font-size:17px;font-weight:700;margin-bottom:4px" data-i18n="rev.title">How did it go?</div>
+    <div class="xs muted" style="margin-bottom:16px" data-i18n="rev.sub">Select tags (optional)</div>
     <div id="revTagArea" class="row wrap g8" style="margin-bottom:16px"></div>
     <div id="customRevTagWrap" style="display:none;margin-bottom:12px">
-      <input type="text" id="customRevTagInput" placeholder="输入自定义归因后按回车..."
+      <input type="text" id="customRevTagInput" data-i18n-placeholder="rev.customHint" placeholder="Type custom reason and press Enter..."
         style="width:100%;font-size:13px;padding:7px 12px"
         onkeydown="if(event.key==='Enter')submitCustomRevTag()">
     </div>
     <div class="row g8" style="justify-content:flex-end">
-      <button class="btn btn-s" onclick="skipReview()">跳过</button>
-      <button class="btn btn-p" onclick="saveReview()">保存</button>
+      <button class="btn btn-s" onclick="skipReview()" data-i18n="rev.skip">Skip</button>
+      <button class="btn btn-p" onclick="saveReview()" data-i18n="rev.save">Save</button>
     </div>
   </div>
 </div>
@@ -711,7 +719,274 @@ const S = {
   pendingRevId: null,  // task id awaiting attribution
 };
 
+// ─────────────────────────────────────────────────────────────
+// I18N
+// ─────────────────────────────────────────────────────────────
+const I18N = {
+  zh: {
+    // Navigation
+    'nav.today':'今日计划','nav.focus':'专注计时','nav.time':'感知时间','nav.review':'复盘','nav.settings':'设置',
+    'tab.today':'今日','tab.focus':'专注','tab.time':'感知','tab.review':'复盘','tab.settings':'设置',
+    // Today Page
+    'today.title':'今日计划','today.tasksDone':'任务完成','today.addTask':'添加任务','today.taskName':'任务名称...','today.estMin':'预计分钟',
+    'today.add':'添加','today.taskTags':'任务标签','today.customTagHint':'输入自定义标签后按回车...',
+    'today.taskList':'任务列表','today.empty':'还没有任务，添加一个吧！',
+    'today.emptyTitle':'今天还没有计划','today.emptySub':'添加第一个任务，开始高效的一天 ✨',
+    'today.overview':'今日时间概览','today.pick':'我来选','today.random':'随机抽取',
+    'today.start':'开始','today.min':'分','today.actual':'实',
+    // Focus Page
+    'focus.clock':'当前时间','focus.down':'倒计时','focus.up':'正计时',
+    'focus.todayFocus':'今日已专注','focus.minutes':'分钟','focus.custom':'自定义',
+    'focus.enterMin':'输入分钟','focus.confirm':'确认','focus.start':'开始','focus.reset':'重置',
+    'focus.pause':'暂停','focus.continue':'继续',
+    'focus.recordHint':'✓ 记录到今日计划 →','focus.freeFocus':'自由专注',
+    'focus.hint1':'保持专注，你可以的 💪','focus.hint2':'时间流逝中，珍惜每一刻 ⏳',
+    // Focus Quotes
+    'quote.0':'时间是最公平的资源','quote.1':'专注当下，其余皆会到来','quote.2':'把时间给值得的事',
+    'quote.3':'此刻即是永恒','quote.4':'深度工作，创造价值','quote.5':'每一分钟都是选择',
+    // Time Perception
+    'time.title':'感知时间','time.sub':'感受时间的流逝',
+    'time.year':'今年进度','time.month':'本月进度','time.day':'今日进度','time.hour':'本小时进度',
+    'time.life':'人生进度','time.birthYear':'出生年份','time.lifespan':'预期寿命','time.lived':'已过',
+    // Review
+    'review.title':'复盘','review.sub':'回顾每一天','review.weekRate':'本周完成率',
+    'review.clickCal':'点击日历查看当天数据','review.noRecord':'这一天没有留下记录',
+    'review.taskStatus':'任务完成情况','review.noTasks':'当日无任务','review.export':'导出 XLSX',
+    'review.journal':'今日随想','review.chars':'字',
+    'review.journalHint':'今天完成了什么？有什么收获？明天有什么计划...',
+    'review.voiceInput':'语音输入','review.aiBtn':'✨ AI帮我复盘今天',
+    'review.noKey':'请先在设置中配置 API Key',
+    'review.fileWarning':'⚠ 检测到通过本地文件打开，AI 功能可能因跨域限制无法使用。请通过服务器访问，或直接访问线上版本',
+    'review.aiLabel':'AI复盘（可直接编辑）','review.aiThinking':'AI思考中...',
+    'review.regenerate':'重新生成',
+    'review.exceeded':'超出','review.saved':'节省','review.justRight':'刚好','review.notTimed':'未计时',
+    'review.completed':'已完成','review.notCompleted':'未完成','review.est':'预','review.act':'实',
+    'review.reqFail':'请求失败','review.genFail':'生成失败，请重试','review.reqError':'请求出错',
+    'review.speechNotSupported':'您的浏览器不支持语音输入，请使用 Chrome 浏览器',
+    // Calendar
+    'cal.sun':'日','cal.mon':'一','cal.tue':'二','cal.wed':'三','cal.thu':'四','cal.fri':'五','cal.sat':'六',
+    // Settings
+    'set.title':'设置','set.sub':'个性化你的规划器',
+    'set.profile':'个人资料','set.username':'用户名','set.usernamePh':'输入用户名...','set.save':'保存',
+    'set.appearance':'外观','set.dark':'🌙 深色','set.light':'☀️ 浅色',
+    'set.language':'语言','set.themeColor':'主题色',
+    'set.aiPersona':'AI 人设','set.rational':'🧠 理性型','set.enthusiastic':'🔥 热情型','set.strict':'💪 严厉型',
+    'set.aiHint':'为后续接入 AI 功能做准备',
+    'set.aiConfig':'AI 复盘配置','set.aiConfigDesc':'选择 API 提供商并填入 Key 以启用 AI 复盘功能',
+    'set.qwen':'通义千问','set.custom':'自定义',
+    'set.endpoint':'接口地址 https://...','set.modelName':'模型名称',
+    'set.apiKeyLocal':'您的 API Key 仅保存在本地浏览器中，不会上传到任何服务器',
+    'set.savedHint':'✓ 已保存',
+    'set.notification':'通知提醒','set.taskTimeout':'任务超时提醒','set.taskTimeoutDesc':'任务超出预计时间时提醒',
+    'set.stats':'数据统计','set.totalFocus':'累计专注总时长','set.accuracy':'时间准确率',
+    'set.accuracyHint':'越接近100%<br>说明你的时间感知越准确',
+    'set.danger':'危险区','set.clearToday':'清除今日数据','set.clearAll':'清除所有数据',
+    'set.confirmClearToday':'确定清除今日数据？','set.confirmClearAll':'确定清除所有数据？此操作不可撤销！',
+    // Task Tags
+    'tag.important':'重要','tag.urgent':'紧急','tag.easy':'轻松','tag.needFocus':'需要专注',
+    'tag.procrastinate':'容易拖延','tag.creative':'创意类','tag.physical':'体力活',
+    // Review Tags
+    'rtag.0':'😴 状态不好','rtag.1':'📱 刷手机了','rtag.2':'🔥 超级专注','rtag.3':'😤 被打扰',
+    'rtag.4':'💪 超额完成','rtag.5':'🤯 比预计难','rtag.6':'✨ 刚刚好',
+    // Overlays & Modals
+    'overlay.phase1':'先做5分钟 💪','overlay.phase2':'专注进行中...','overlay.done':'✅ 完成任务',
+    'overlay.taskName':'任务名称','overlay.fullscreen':'全屏','overlay.minimize':'最小化',
+    'overlay.close':'关闭','overlay.restore':'还原',
+    'rand.ready':'就决定是你了！准备好了吗？','rand.go':'🚀 开始吧！','rand.reroll':'🔄 再抽一次',
+    'pick.title':'✋ 选择要开始的任务','pick.cancel':'取消',
+    'rev.title':'这次完成情况怎么样？','rev.sub':'选择标签，可多选（可跳过）',
+    'rev.customHint':'输入自定义归因后按回车...','rev.skip':'跳过','rev.save':'保存',
+    // XLSX Export
+    'xlsx.date':'日期','xlsx.taskName':'任务名称','xlsx.status':'状态','xlsx.estMin':'预计(分)',
+    'xlsx.actMin':'实际(分)','xlsx.diffMin':'时间差(分)','xlsx.reason':'超时原因','xlsx.journal':'今日随想',
+    'xlsx.taskCount':'任务数','xlsx.doneCount':'完成数','xlsx.totalEst':'总预计(分)','xlsx.totalAct':'总实际(分)',
+    'xlsx.sheet1':'任务详情','xlsx.sheet2':'今日随想','xlsx.sheet3':'时间统计',
+    'xlsx.done':'已完成','xlsx.notDone':'未完成','xlsx.sheetNotLoaded':'SheetJS 未加载，请检查网络连接',
+    // Custom tag
+    'tag.custom':'+ 自定义',
+    // AI Provider Info
+    'ai.endpoint':'接口','ai.model':'模型','ai.customHint':'请填写自定义接口地址和模型名称',
+    'ai.provQwen':'通义千问','ai.provCustom':'自定义',
+    // Week chart labels
+    'week.mon':'一','week.tue':'二','week.wed':'三','week.thu':'四','week.fri':'五','week.sat':'六','week.sun':'日',
+    // Mic
+    'mic.recording':'录音中...点击停止','mic.voiceInput':'语音输入',
+  },
+  en: {
+    // Navigation
+    'nav.today':'Today','nav.focus':'Focus','nav.time':'Time','nav.review':'Review','nav.settings':'Settings',
+    'tab.today':'Today','tab.focus':'Focus','tab.time':'Time','tab.review':'Review','tab.settings':'Settings',
+    // Today Page
+    'today.title':"Today's Plan",'today.tasksDone':'tasks completed','today.addTask':'Add Task','today.taskName':'Task name...','today.estMin':'Est. minutes',
+    'today.add':'Add','today.taskTags':'Task Tags','today.customTagHint':'Type custom tag and press Enter...',
+    'today.taskList':'Task List','today.empty':'No tasks yet, add one!',
+    'today.emptyTitle':'No plans for today','today.emptySub':'Add your first task and start a productive day ✨',
+    'today.overview':"Today's Time Overview",'today.pick':"I'll pick",'today.random':'Random',
+    'today.start':'Start','today.min':'min','today.actual':'Act.',
+    // Focus Page
+    'focus.clock':'Clock','focus.down':'Countdown','focus.up':'Stopwatch',
+    'focus.todayFocus':'Focused today','focus.minutes':'min','focus.custom':'Custom',
+    'focus.enterMin':'Enter minutes','focus.confirm':'Confirm','focus.start':'Start','focus.reset':'Reset',
+    'focus.pause':'Pause','focus.continue':'Resume',
+    'focus.recordHint':'✓ Record to today\'s plan →','focus.freeFocus':'Free focus',
+    'focus.hint1':'Stay focused, you can do it 💪','focus.hint2':'Time is passing, cherish every moment ⏳',
+    // Focus Quotes
+    'quote.0':'Time is the fairest resource','quote.1':'Focus on now, the rest will come','quote.2':'Give time to what matters',
+    'quote.3':'This moment is eternity','quote.4':'Deep work, create value','quote.5':'Every minute is a choice',
+    // Time Perception
+    'time.title':'Time Awareness','time.sub':'Feel the passage of time',
+    'time.year':'This Year','time.month':'This Month','time.day':'Today','time.hour':'This Hour',
+    'time.life':'Life Progress','time.birthYear':'Birth year','time.lifespan':'Life expectancy','time.lived':'lived',
+    // Review
+    'review.title':'Review','review.sub':'Look back on each day','review.weekRate':'Weekly Completion',
+    'review.clickCal':'Click a date to view data','review.noRecord':'No records for this day',
+    'review.taskStatus':'Task Completion','review.noTasks':'No tasks this day','review.export':'Export XLSX',
+    'review.journal':"Today's Thoughts",'review.chars':'chars',
+    'review.journalHint':'What did you accomplish? What did you learn? Plans for tomorrow...',
+    'review.voiceInput':'Voice input','review.aiBtn':'✨ AI Review Today',
+    'review.noKey':'Please configure API Key in Settings',
+    'review.fileWarning':'⚠ Local file detected. AI may not work due to CORS. Please use a server or the online version.',
+    'review.aiLabel':'AI Review (editable)','review.aiThinking':'AI thinking...',
+    'review.regenerate':'Regenerate',
+    'review.exceeded':'Over by','review.saved':'Saved','review.justRight':'Exact','review.notTimed':'Not timed',
+    'review.completed':'Done','review.notCompleted':'Not done','review.est':'Est.','review.act':'Act.',
+    'review.reqFail':'Request failed','review.genFail':'Generation failed, retry','review.reqError':'Request error',
+    'review.speechNotSupported':"Your browser doesn't support voice input. Please use Chrome.",
+    // Calendar
+    'cal.sun':'Sun','cal.mon':'Mon','cal.tue':'Tue','cal.wed':'Wed','cal.thu':'Thu','cal.fri':'Fri','cal.sat':'Sat',
+    // Settings
+    'set.title':'Settings','set.sub':'Personalize your planner',
+    'set.profile':'Profile','set.username':'Username','set.usernamePh':'Enter username...','set.save':'Save',
+    'set.appearance':'Appearance','set.dark':'🌙 Dark','set.light':'☀️ Light',
+    'set.language':'Language','set.themeColor':'Theme Color',
+    'set.aiPersona':'AI Persona','set.rational':'🧠 Analytical','set.enthusiastic':'🔥 Enthusiastic','set.strict':'💪 Strict',
+    'set.aiHint':'For AI review feature',
+    'set.aiConfig':'AI Review Config','set.aiConfigDesc':'Select provider and enter Key to enable AI review',
+    'set.qwen':'Qwen','set.custom':'Custom',
+    'set.endpoint':'Endpoint URL https://...','set.modelName':'Model name',
+    'set.apiKeyLocal':'Your API Key is stored locally only and never uploaded',
+    'set.savedHint':'✓ Saved',
+    'set.notification':'Notifications','set.taskTimeout':'Task Timeout Alert','set.taskTimeoutDesc':'Alert when task exceeds estimated time',
+    'set.stats':'Statistics','set.totalFocus':'Total Focus Time','set.accuracy':'Time Accuracy',
+    'set.accuracyHint':'Closer to 100% = more accurate time perception',
+    'set.danger':'Danger Zone','set.clearToday':'Clear Today','set.clearAll':'Clear All Data',
+    'set.confirmClearToday':'Clear today\'s data?','set.confirmClearAll':'Clear ALL data? This cannot be undone!',
+    // Task Tags
+    'tag.important':'Important','tag.urgent':'Urgent','tag.easy':'Easy','tag.needFocus':'Needs Focus',
+    'tag.procrastinate':'Procrastinate','tag.creative':'Creative','tag.physical':'Physical',
+    // Review Tags
+    'rtag.0':'😴 Low Energy','rtag.1':'📱 Phone Distraction','rtag.2':'🔥 Super Focused','rtag.3':'😤 Interrupted',
+    'rtag.4':'💪 Exceeded Goal','rtag.5':'🤯 Harder Than Expected','rtag.6':'✨ Just Right',
+    // Overlays & Modals
+    'overlay.phase1':'Just 5 minutes 💪','overlay.phase2':'Focusing...','overlay.done':'✅ Complete Task',
+    'overlay.taskName':'Task Name','overlay.fullscreen':'Fullscreen','overlay.minimize':'Minimize',
+    'overlay.close':'Close','overlay.restore':'Restore',
+    'rand.ready':"It's you! Ready?",'rand.go':'🚀 Let\'s go!','rand.reroll':'🔄 Reroll',
+    'pick.title':'✋ Pick a task','pick.cancel':'Cancel',
+    'rev.title':'How did it go?','rev.sub':'Select tags (optional)',
+    'rev.customHint':'Type custom reason and press Enter...','rev.skip':'Skip','rev.save':'Save',
+    // XLSX Export
+    'xlsx.date':'Date','xlsx.taskName':'Task Name','xlsx.status':'Status','xlsx.estMin':'Est.(min)',
+    'xlsx.actMin':'Act.(min)','xlsx.diffMin':'Diff.(min)','xlsx.reason':'Reason','xlsx.journal':'Thoughts',
+    'xlsx.taskCount':'Tasks','xlsx.doneCount':'Done','xlsx.totalEst':'Total Est.','xlsx.totalAct':'Total Act.',
+    'xlsx.sheet1':'Task Details','xlsx.sheet2':'Thoughts','xlsx.sheet3':'Time Stats',
+    'xlsx.done':'Done','xlsx.notDone':'Not done','xlsx.sheetNotLoaded':'SheetJS not loaded, check network',
+    // Custom tag
+    'tag.custom':'+ Custom',
+    // AI Provider Info
+    'ai.endpoint':'Endpoint','ai.model':'Model','ai.customHint':'Enter custom endpoint and model name',
+    'ai.provQwen':'Qwen','ai.provCustom':'Custom',
+    // Week chart labels
+    'week.mon':'Mon','week.tue':'Tue','week.wed':'Wed','week.thu':'Thu','week.fri':'Fri','week.sat':'Sat','week.sun':'Sun',
+    // Mic
+    'mic.recording':'Recording... click to stop','mic.voiceInput':'Voice input',
+  }
+};
+
+function t(key) {
+  const lang = (getSettings().lang) || 'zh';
+  return (I18N[lang] && I18N[lang][key]) || (I18N.zh[key]) || key;
+}
+
+function setLang(lang) {
+  const s = getSettings();
+  s.lang = lang;
+  saveSettings(s);
+  applyLang();
+  // re-render current page
+  if (S.page === 'today') renderToday();
+  else if (S.page === 'focus') renderFocus();
+  else if (S.page === 'time') renderTime();
+  else if (S.page === 'review') renderReview();
+  else if (S.page === 'settings') renderSettings();
+}
+
+function applyLang() {
+  const lang = (getSettings().lang) || 'en';
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  // textContent
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if (val) el.textContent = val;
+  });
+  // placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    const val = t(key);
+    if (val) el.placeholder = val;
+  });
+  // title attributes
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    const val = t(key);
+    if (val) el.title = val;
+  });
+  // innerHTML (for keys containing <br> etc)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    const val = t(key);
+    if (val) el.innerHTML = val;
+  });
+  // rebuild calendar headers
+  const calHdr = document.querySelector('.cal-hdr');
+  if (calHdr) {
+    const days = [t('cal.sun'),t('cal.mon'),t('cal.tue'),t('cal.wed'),t('cal.thu'),t('cal.fri'),t('cal.sat')];
+    calHdr.innerHTML = days.map(d => `<div class="cal-hdr-d">${d}</div>`).join('');
+  }
+}
+
+function getPresetTaskTags() {
+  return [t('tag.important'),t('tag.urgent'),t('tag.easy'),t('tag.needFocus'),t('tag.procrastinate'),t('tag.creative'),t('tag.physical')];
+}
+
+function getPresetRevTags() {
+  return [t('rtag.0'),t('rtag.1'),t('rtag.2'),t('rtag.3'),t('rtag.4'),t('rtag.5'),t('rtag.6')];
+}
+
+function getFocusQuotes() {
+  return [t('quote.0'),t('quote.1'),t('quote.2'),t('quote.3'),t('quote.4'),t('quote.5')];
+}
+
+function formatCalTitle(y, m) {
+  const lang = (getSettings().lang) || 'zh';
+  if (lang === 'en') {
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return months[m] + ' ' + y;
+  }
+  return `${y}年 ${m+1}月`;
+}
+
+function formatDateTitle(date) {
+  const lang = (getSettings().lang) || 'zh';
+  if (lang === 'en') {
+    return date.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+  }
+  return date.toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+}
+
 const PAGE_ORDER   = ['today','focus','time','review','settings'];
+// Legacy constants kept as references; use getFocusQuotes()/getPresetTaskTags()/getPresetRevTags() in code
 const FOCUS_QUOTES = ['时间是最公平的资源','专注当下，其余皆会到来','把时间给值得的事','此刻即是永恒','深度工作，创造价值','每一分钟都是选择'];
 const RING_C = 1256.6; // circumference of r=200
 
@@ -741,7 +1016,7 @@ function getSettings() {
   const raw = localStorage.getItem('settings');
   if (raw) return JSON.parse(raw);
   return { username:'', avatar:'', theme:'#7c3aed', themeHover:'#6d28d9',
-           persona:'rational', notifications:false, birthYear:1990, lifespan:80, mode:'dark' };
+           persona:'rational', notifications:false, birthYear:1990, lifespan:80, mode:'dark', lang:'en' };
 }
 
 function saveSettings(s) { localStorage.setItem('settings', JSON.stringify(s)); }
@@ -822,24 +1097,23 @@ function secToHMS(sec) {
 function renderToday() {
   const data = getDay();
   const now = new Date();
-  document.getElementById('todayTitle').textContent =
-    now.toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+  document.getElementById('todayTitle').textContent = formatDateTitle(now);
 
-  const done = data.tasks.filter(t => t.status === 'done').length;
-  document.getElementById('todayProg').textContent = `${done} / ${data.tasks.length} 任务完成`;
+  const done = data.tasks.filter(tk => tk.status === 'done').length;
+  document.getElementById('todayProg').textContent = `${done} / ${data.tasks.length} ${t('today.tasksDone')}`;
 
   // task buttons
-  const undone = data.tasks.filter(t => t.status !== 'done');
+  const undone = data.tasks.filter(tk => tk.status !== 'done');
   const btnsEl = document.getElementById('taskBtns');
   if (undone.length >= 2) {
     btnsEl.style.display = 'flex';
     btnsEl.innerHTML = `
-      <button class="btn btn-s" style="font-size:13px;padding:7px 14px" onclick="openAiPick()"><i data-lucide="hand" style="width:14px;height:14px"></i> 我来选</button>
-      <button class="btn btn-s" style="font-size:13px;padding:7px 14px" onclick="randomTask()"><i data-lucide="shuffle" style="width:14px;height:14px"></i> 随机抽取</button>`;
+      <button class="btn btn-s" style="font-size:13px;padding:7px 14px" onclick="openAiPick()"><i data-lucide="hand" style="width:14px;height:14px"></i> ${t('today.pick')}</button>
+      <button class="btn btn-s" style="font-size:13px;padding:7px 14px" onclick="randomTask()"><i data-lucide="shuffle" style="width:14px;height:14px"></i> ${t('today.random')}</button>`;
   } else if (undone.length === 1) {
     btnsEl.style.display = 'flex';
     btnsEl.innerHTML = `
-      <button class="btn btn-p" style="font-size:13px;padding:7px 14px" onclick="startTask('${undone[0].id}')"><i data-lucide="play" style="width:14px;height:14px"></i> 开始</button>`;
+      <button class="btn btn-p" style="font-size:13px;padding:7px 14px" onclick="startTask('${undone[0].id}')"><i data-lucide="play" style="width:14px;height:14px"></i> ${t('today.start')}</button>`;
   } else {
     btnsEl.style.display = 'none';
   }
@@ -852,24 +1126,24 @@ function renderToday() {
   if (!data.tasks.length) {
     el.innerHTML = `<div class="empty-state">
       <div class="es-icon">📋</div>
-      <div class="es-title">今天还没有计划</div>
-      <div class="es-sub">添加第一个任务，开始高效的一天 ✨</div>
+      <div class="es-title">${t('today.emptyTitle')}</div>
+      <div class="es-sub">${t('today.emptySub')}</div>
     </div>`;
   } else {
-    el.innerHTML = data.tasks.map(t => {
-      const actMin = t.actualSec ? Math.round(t.actualSec/60) : null;
-      const taskTagsHTML = (t.tags||[]).map(tg => `<span class="mtag mtag-p">#${esc(tg)}</span>`).join('');
-      const revTagsHTML  = (t.reviewTags||[]).map(tg => `<span class="mtag mtag-b">${esc(tg)}</span>`).join('');
+    el.innerHTML = data.tasks.map(tk => {
+      const actMin = tk.actualSec ? Math.round(tk.actualSec/60) : null;
+      const taskTagsHTML = (tk.tags||[]).map(tg => `<span class="mtag mtag-p">#${esc(tg)}</span>`).join('');
+      const revTagsHTML  = (tk.reviewTags||[]).map(tg => `<span class="mtag mtag-b">${esc(tg)}</span>`).join('');
       const tagsRow = (taskTagsHTML || revTagsHTML)
         ? `<div class="row wrap g4" style="padding-left:30px">${taskTagsHTML}${revTagsHTML}</div>` : '';
-      const isNew = t.id === S.justAddedId;
-      return `<div class="task-row${isNew?' new':''}" id="trow-${t.id}" style="flex-direction:column;align-items:stretch;gap:6px">
+      const isNew = tk.id === S.justAddedId;
+      return `<div class="task-row${isNew?' new':''}" id="trow-${tk.id}" style="flex-direction:column;align-items:stretch;gap:6px">
         <div class="row" style="gap:10px;align-items:center">
-          <div class="tcheck ${t.status==='done'?'on':''}" onclick="toggleTask('${t.id}')">${t.status==='done'?'<i data-lucide="check" style="width:12px;height:12px"></i>':''}</div>
-          <div class="tname ${t.status==='done'?'done':''}" style="flex:1">${esc(t.name)}</div>
-          <div class="ttime">${t.estimatedMin}分${actMin!=null?' | 实'+actMin+'分':''}</div>
-          <button class="tbtn" style="background:rgba(124,58,237,0.15);color:var(--accent)" onclick="startTask('${t.id}')"><i data-lucide="play" style="width:13px;height:13px"></i><span class="btn-label"> 开始</span></button>
-          <button class="tbtn" style="background:rgba(239,68,68,0.1);color:#ef4444" onclick="delTask('${t.id}')"><i data-lucide="trash-2" style="width:13px;height:13px"></i></button>
+          <div class="tcheck ${tk.status==='done'?'on':''}" onclick="toggleTask('${tk.id}')">${tk.status==='done'?'<i data-lucide="check" style="width:12px;height:12px"></i>':''}</div>
+          <div class="tname ${tk.status==='done'?'done':''}" style="flex:1">${esc(tk.name)}</div>
+          <div class="ttime">${tk.estimatedMin}${t('today.min')}${actMin!=null?' | '+t('today.actual')+actMin+t('today.min'):''}</div>
+          <button class="tbtn" style="background:rgba(124,58,237,0.15);color:var(--accent)" onclick="startTask('${tk.id}')"><i data-lucide="play" style="width:13px;height:13px"></i><span class="btn-label"> ${t('today.start')}</span></button>
+          <button class="tbtn" style="background:rgba(239,68,68,0.1);color:#ef4444" onclick="delTask('${tk.id}')"><i data-lucide="trash-2" style="width:13px;height:13px"></i></button>
         </div>
         ${tagsRow}
       </div>`;
@@ -880,7 +1154,7 @@ function renderToday() {
   if (window.lucide) lucide.createIcons();
 
   // chart
-  const doneTasks = data.tasks.filter(t => t.actualSec > 0);
+  const doneTasks = data.tasks.filter(tk => tk.actualSec > 0);
   const cc = document.getElementById('chartCard');
   if (!doneTasks.length) { cc.style.display='none'; return; }
   cc.style.display = 'block';
@@ -889,13 +1163,13 @@ function renderToday() {
   S.chart = new Chart(ctx, {
     type: 'pie',
     data: {
-      labels: doneTasks.map(t => t.name),
-      datasets: [{ data: doneTasks.map(t => t.actualSec),
+      labels: doneTasks.map(tk => tk.name),
+      datasets: [{ data: doneTasks.map(tk => tk.actualSec),
         backgroundColor: doneTasks.map((_,i) => COLORS[i%COLORS.length]), borderWidth:0 }]
     },
     options: { plugins: {
       legend: { labels: { color:'rgba(255,255,255,.7)', font:{ family:'Inter' } } },
-      tooltip: { callbacks: { label: c => ` ${c.label}: ${Math.round(c.raw/60)} 分钟` } }
+      tooltip: { callbacks: { label: c => ` ${c.label}: ${Math.round(c.raw/60)} ${t('focus.minutes')}` } }
     }}
   });
 }
@@ -919,10 +1193,10 @@ function addTask() {
 
 function toggleTask(id) {
   const data = getDay();
-  const t = data.tasks.find(t => t.id === id);
-  if (!t) return;
-  const completing = t.status !== 'done';
-  t.status = completing ? 'done' : 'todo';
+  const tk = data.tasks.find(tk => tk.id === id);
+  if (!tk) return;
+  const completing = tk.status !== 'done';
+  tk.status = completing ? 'done' : 'todo';
   saveDay(data);
   if (completing) {
     const row = document.getElementById('trow-' + id);
@@ -941,23 +1215,23 @@ function delTask(id) {
     row.classList.add('removing');
     setTimeout(() => {
       const data = getDay();
-      data.tasks = data.tasks.filter(t => t.id !== id);
+      data.tasks = data.tasks.filter(tk => tk.id !== id);
       saveDay(data); renderToday();
     }, 200);
   } else {
     const data = getDay();
-    data.tasks = data.tasks.filter(t => t.id !== id);
+    data.tasks = data.tasks.filter(tk => tk.id !== id);
     saveDay(data); renderToday();
   }
 }
 
 function openAiPick() {
   const data = getDay();
-  const undone = data.tasks.filter(t => t.status !== 'done');
-  document.getElementById('pickList').innerHTML = undone.map(t =>
-    `<div class="task-row" style="cursor:pointer" onclick="pickTask('${t.id}')">
-      <div class="tname">${esc(t.name)}</div>
-      <div class="ttime">${t.estimatedMin} 分钟</div>
+  const undone = data.tasks.filter(tk => tk.status !== 'done');
+  document.getElementById('pickList').innerHTML = undone.map(tk =>
+    `<div class="task-row" style="cursor:pointer" onclick="pickTask('${tk.id}')">
+      <div class="tname">${esc(tk.name)}</div>
+      <div class="ttime">${tk.estimatedMin} ${t('focus.minutes')}</div>
     </div>`
   ).join('');
   document.getElementById('pickModal').classList.remove('hide');
@@ -971,7 +1245,7 @@ let _randPickId = null;
 
 function randomTask() {
   const data = getDay();
-  const undone = data.tasks.filter(t => t.status !== 'done');
+  const undone = data.tasks.filter(tk => tk.status !== 'done');
   if (!undone.length) return;
   const pick = undone[Math.floor(Math.random() * undone.length)];
   _randPickId = pick.id;
@@ -1005,7 +1279,7 @@ function reRandom() {
 // ─────────────────────────────────────────────────────────────
 function startTask(id) {
   const data = getDay();
-  const task = data.tasks.find(t => t.id === id);
+  const task = data.tasks.find(tk => tk.id === id);
   if (!task) return;
 
   S.oTask = task;
@@ -1023,7 +1297,7 @@ function startTask(id) {
   _savedFloatRect = null;
 
   document.getElementById('tfTaskName').textContent = task.name;
-  document.getElementById('oPhase').textContent = '先做5分钟 💪';
+  document.getElementById('oPhase').textContent = t('overlay.phase1');
   document.getElementById('oClockWrap').innerHTML = flipClockHTML('o', false);
   updateClock('o', 0, 5, 0);
   document.getElementById('tfDoneWrap').style.display = 'none';
@@ -1041,7 +1315,7 @@ function tickFloat() {
     S.oWarmupLeft--;
     if (S.oWarmupLeft <= 0) {
       S.oPhase = 'working';
-      document.getElementById('oPhase').textContent = '专注进行中...';
+      document.getElementById('oPhase').textContent = t('overlay.phase2');
       document.getElementById('tfDoneWrap').style.display = '';
       S.oElapsed = 300;
     } else {
@@ -1068,8 +1342,8 @@ function doneTask() {
   if (!S.oTask) return;
   const elapsed = Math.floor((Date.now() - S.oStart) / 1000);
   const data = getDay();
-  const t = data.tasks.find(t => t.id === S.oTask.id);
-  if (t) { t.actualSec = elapsed; t.status = 'done'; }
+  const tk = data.tasks.find(tk => tk.id === S.oTask.id);
+  if (tk) { tk.actualSec = elapsed; tk.status = 'done'; }
   saveDay(data);
   const taskId = S.oTask.id;
   cancelOverlay();
@@ -1145,7 +1419,7 @@ function updateFullBtn() {
   const btn = document.getElementById('tfFullBtn');
   if (!btn) return;
   const isFull = fw.classList.contains('fullscreen');
-  btn.title = isFull ? '还原' : '全屏';
+  btn.title = isFull ? t('overlay.restore') : t('overlay.fullscreen');
   btn.innerHTML = isFull
     ? '<i data-lucide="minimize-2" style="width:13px;height:13px"></i>'
     : '<i data-lucide="maximize-2" style="width:13px;height:13px"></i>';
@@ -1243,7 +1517,7 @@ function setFMode(m) {
   S.fRunning = false;
   S.fMode = m;
 
-  document.querySelectorAll('.tab[data-m]').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab[data-m]').forEach(el => el.classList.remove('active'));
   const tab = document.querySelector(`.tab[data-m="${m}"]`);
   if (tab) tab.classList.add('active');
 
@@ -1252,7 +1526,7 @@ function setFMode(m) {
   // clock-mode elements
   const dateLine = document.getElementById('fDateLine');
   if (dateLine) dateLine.textContent = isClock
-    ? new Date().toLocaleDateString('zh-CN', {year:'numeric',month:'long',day:'numeric',weekday:'long'})
+    ? formatDateTitle(new Date())
     : '';
   dateLine && (dateLine.style.display = isClock ? '' : 'none');
   document.getElementById('fClockExtras').style.display = isClock ? '' : 'none';
@@ -1270,25 +1544,26 @@ function setFMode(m) {
   setGlow(false);
 
   const btn = document.getElementById('fStartBtn');
-  if (btn) btn.textContent = '开始';
+  if (btn) btn.textContent = t('focus.start');
 
   if (isClock) {
     // random quote for clock mode
-    const q = FOCUS_QUOTES[Math.floor(Math.random() * FOCUS_QUOTES.length)];
+    const quotes = getFocusQuotes();
+    const q = quotes[Math.floor(Math.random() * quotes.length)];
     document.getElementById('fClockQuote').textContent = q;
     // today focus stats
     const data = getDay();
-    const focusMin = Math.round(data.tasks.filter(t=>t.status==='done').reduce((s,t)=>s+(t.actualSec||0),0)/60);
+    const focusMin = Math.round(data.tasks.filter(tk=>tk.status==='done').reduce((s,tk)=>s+(tk.actualSec||0),0)/60);
     document.getElementById('fTodayMin').textContent = focusMin;
     tickClock();
     S.fClockTimer = setInterval(tickClock, 1000);
   } else {
     // task label
-    document.getElementById('fTaskLabel').textContent = S.fTaskName || '自由专注';
+    document.getElementById('fTaskLabel').textContent = S.fTaskName || t('focus.freeFocus');
     // status hint
     document.getElementById('fStatusHint').textContent = m === 'down'
-      ? '保持专注，你可以的 💪'
-      : '时间流逝中，珍惜每一刻 ⏳';
+      ? t('focus.hint1')
+      : t('focus.hint2');
     if (m === 'down') {
       S.fSec = 25 * 60; S.fTotalSec = S.fSec;
     } else {
@@ -1309,7 +1584,7 @@ function setDown(min) {
   S.fSec = min * 60; S.fTotalSec = S.fSec;
   S.fRunning = false;
   if (S.fTimer) { clearInterval(S.fTimer); S.fTimer = null; }
-  document.getElementById('fStartBtn').textContent = '开始';
+  document.getElementById('fStartBtn').textContent = t('focus.start');
   document.getElementById('fDoneHint').style.display = 'none';
   setRing(false); setGlow(false);
   initRingOffset();
@@ -1333,13 +1608,13 @@ function toggleFTimer() {
   if (S.fRunning) {
     clearInterval(S.fTimer); S.fTimer = null;
     S.fRunning = false;
-    document.getElementById('fStartBtn').textContent = '继续';
+    document.getElementById('fStartBtn').textContent = t('focus.continue');
     setGlow(false);
   } else {
     // pick quote only on fresh start (not resume)
     if (S.fSec === S.fTotalSec || S.fMode === 'up' && S.fSec === 0) pickQuote();
     S.fRunning = true;
-    document.getElementById('fStartBtn').textContent = '暂停';
+    document.getElementById('fStartBtn').textContent = t('focus.pause');
     setRing(true);
     setGlow(true);
     S.fTimer = setInterval(() => {
@@ -1347,7 +1622,7 @@ function toggleFTimer() {
         S.fSec--;
         if (S.fSec <= 0) {
           S.fSec = 0; clearInterval(S.fTimer); S.fTimer = null; S.fRunning = false;
-          document.getElementById('fStartBtn').textContent = '开始';
+          document.getElementById('fStartBtn').textContent = t('focus.start');
           document.getElementById('fDoneHint').style.display = 'block';
           setGlow(false);
         }
@@ -1363,7 +1638,7 @@ function resetFTimer() {
   S.fRunning = false;
   if (S.fMode === 'down') { S.fSec = S.fTotalSec || 25*60; }
   else { S.fSec = 0; }
-  document.getElementById('fStartBtn').textContent = '开始';
+  document.getElementById('fStartBtn').textContent = t('focus.start');
   document.getElementById('fDoneHint').style.display = 'none';
   const qEl = document.getElementById('fQuote');
   qEl.textContent = ''; qEl.style.display = 'none';
@@ -1413,7 +1688,8 @@ function setGlow(on) {
 function pickQuote() {
   const el = document.getElementById('fQuote');
   if (!el) return;
-  el.textContent = FOCUS_QUOTES[Math.floor(Math.random() * FOCUS_QUOTES.length)];
+  const quotes = getFocusQuotes();
+  el.textContent = quotes[Math.floor(Math.random() * quotes.length)];
   el.style.display = '';
 }
 
@@ -1444,22 +1720,29 @@ function buildTime() {
   const yearsLived = y - by;
 
   const grid = document.getElementById('timeGrid');
+  const lang = (getSettings().lang) || 'en';
+  const yearSub = lang === 'en' ? `Day ${doy} / ${dInY}` : `第 ${doy} 天 / ${dInY} 天`;
+  const monthSub = lang === 'en' ? `Day ${d} / ${dInM}` : `第 ${d} 天 / ${dInM} 天`;
+  const daySub = lang === 'en' ? `${h}h ${mi}m / 24h` : `已过 ${h} 小时 ${mi} 分 / 24 小时`;
+  const hourSub = lang === 'en' ? `${mi}m ${sec}s / 60m` : `第 ${mi} 分 ${sec} 秒 / 60 分钟`;
+  const lifeLived = lang === 'en' ? `${yearsLived} / ${ls} years ${t('time.lived')}` : `已过 ${yearsLived} 年 / ${ls} 年`;
+
   grid.innerHTML = `
   <div class="grid2">
-    ${tcard('今年进度', `第 ${doy} 天 / ${dInY} 天`, dotsDoy/dInY*100, makeDots(dotsDoy, dInY, 8))}
-    ${tcard('本月进度', `第 ${d} 天 / ${dInM} 天`, dotsDom/dInM*100, makeDots(dotsDom, dInM, 9))}
-    ${tcard('今日进度', `已过 ${h} 小时 ${mi} 分 / 24 小时`, dayPct, makeDots(h, 24, 11))}
-    ${tcard('本小时进度', `第 ${mi} 分 ${sec} 秒 / 60 分钟`, hrPct, makeDots(mi, 60, 7))}
+    ${tcard(t('time.year'), yearSub, dotsDoy/dInY*100, makeDots(dotsDoy, dInY, 8))}
+    ${tcard(t('time.month'), monthSub, dotsDom/dInM*100, makeDots(dotsDom, dInM, 9))}
+    ${tcard(t('time.day'), daySub, dayPct, makeDots(h, 24, 11))}
+    ${tcard(t('time.hour'), hourSub, hrPct, makeDots(mi, 60, 7))}
   </div>
   <div class="card" style="margin-top:0">
     <div class="row jb mb8">
-      <div class="sec-title" style="margin:0">人生进度</div>
+      <div class="sec-title" style="margin:0">${t('time.life')}</div>
       <div class="row g8">
-        <input type="number" id="byInput" placeholder="出生年份" style="width:100px" value="${settings.birthYear||''}" oninput="saveLifeSettings()">
-        <input type="number" id="lsInput" placeholder="预期寿命" style="width:90px" value="${settings.lifespan||''}" oninput="saveLifeSettings()">
+        <input type="number" id="byInput" placeholder="${t('time.birthYear')}" style="width:100px" value="${settings.birthYear||''}" oninput="saveLifeSettings()">
+        <input type="number" id="lsInput" placeholder="${t('time.lifespan')}" style="width:90px" value="${settings.lifespan||''}" oninput="saveLifeSettings()">
       </div>
     </div>
-    <div class="sm muted mb8">已过 ${yearsLived} 年 / ${ls} 年</div>
+    <div class="sm muted mb8">${lifeLived}</div>
     <div class="pbar mb8"><div class="pfill" style="width:${Math.min(100,yearsLived/ls*100).toFixed(1)}%"></div></div>
     ${makeDots(yearsLived, ls, 10)}
   </div>`;
@@ -1513,7 +1796,7 @@ function buildWeekChart() {
   const now = new Date();
   const dow = now.getDay();
   const daysFromMon = dow === 0 ? 6 : dow - 1;
-  const labels = ['一','二','三','四','五','六','日'];
+  const labels = [t('week.mon'),t('week.tue'),t('week.wed'),t('week.thu'),t('week.fri'),t('week.sat'),t('week.sun')];
   const rates = [];
 
   for (let i = 0; i < 7; i++) {
@@ -1524,7 +1807,7 @@ function buildWeekChart() {
       const raw = localStorage.getItem(k);
       const data = raw ? JSON.parse(raw) : null;
       if (data && data.tasks && data.tasks.length > 0) {
-        const done = data.tasks.filter(t => t.status === 'done').length;
+        const done = data.tasks.filter(tk => tk.status === 'done').length;
         rates.push(Math.round(done / data.tasks.length * 100));
       } else { rates.push(null); }
     } catch { rates.push(null); }
@@ -1577,7 +1860,7 @@ function buildWeekChart() {
 
 function buildCal() {
   const y = S.calY, m = S.calM;
-  document.getElementById('calTitle').textContent = `${y}年 ${m+1}月`;
+  document.getElementById('calTitle').textContent = formatCalTitle(y, m);
   const first = new Date(y, m, 1).getDay();
   const days  = new Date(y, m+1, 0).getDate();
   const today = dateKey();
@@ -1609,57 +1892,56 @@ function selectDay(k) { S.revDate = k; buildCal(); buildReviewBody(k); }
 function buildReviewBody(k) {
   const data = getDay(k);
   const el = document.getElementById('reviewBody');
-  const REASONS = ['刷手机','任务比预计难','状态不好','被打扰','其他'];
 
   // No data at all
   if (!data || (!data.tasks.length && !data.journal)) {
     el.innerHTML = `
       <div class="card"><div class="empty-state">
         <div class="es-icon">🌙</div>
-        <div class="es-title">这一天没有留下记录</div>
+        <div class="es-title">${t('review.noRecord')}</div>
       </div></div>
       ${journalCardHTML(k, 0, '')}
-      <button class="btn btn-s" style="width:100%;margin-bottom:16px" onclick="exportXLSX()"><i data-lucide="download" style="width:14px;height:14px"></i> 导出 XLSX</button>`;
+      <button class="btn btn-s" style="width:100%;margin-bottom:16px" onclick="exportXLSX()"><i data-lucide="download" style="width:14px;height:14px"></i> ${t('review.export')}</button>`;
     if (window.lucide) lucide.createIcons();
     return;
   }
 
   // Task rows
-  const done  = data.tasks.filter(t => t.status === 'done').length;
+  const done  = data.tasks.filter(tk => tk.status === 'done').length;
   const total = data.tasks.length;
   const pct   = total ? Math.round(done/total*100) : 0;
 
-  const tasksHTML = total ? data.tasks.map(t => {
-    const est = t.estimatedMin * 60;
-    const act = t.actualSec || 0;
+  const tasksHTML = total ? data.tasks.map(tk => {
+    const est = tk.estimatedMin * 60;
+    const act = tk.actualSec || 0;
     const diff = act - est;
     const diffTxt = act
-      ? (diff > 0 ? `超出 ${Math.round(diff/60)} 分` : diff < 0 ? `节省 ${Math.abs(Math.round(diff/60))} 分` : '刚好')
+      ? (diff > 0 ? `${t('review.exceeded')} ${Math.round(diff/60)} ${t('today.min')}` : diff < 0 ? `${t('review.saved')} ${Math.abs(Math.round(diff/60))} ${t('today.min')}` : t('review.justRight'))
       : '--';
     const dc = act ? (diff > 60 ? '#ef4444' : diff < -60 ? '#10b981' : 'var(--muted)') : 'var(--muted)';
-    const taskTagsHTML = (t.tags||[]).map(tg => `<span class="mtag mtag-p">#${esc(tg)}</span>`).join('');
-    const revTagsHTML  = (t.reviewTags||[]).map(tg => `<span class="mtag mtag-b">${esc(tg)}</span>`).join('');
+    const taskTagsHTML = (tk.tags||[]).map(tg => `<span class="mtag mtag-p">#${esc(tg)}</span>`).join('');
+    const revTagsHTML  = (tk.reviewTags||[]).map(tg => `<span class="mtag mtag-b">${esc(tg)}</span>`).join('');
     const tagsRow = (taskTagsHTML || revTagsHTML)
       ? `<div class="row wrap g4" style="margin-top:8px">${taskTagsHTML}${revTagsHTML}</div>` : '';
     return `<div style="padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--card-border);border-radius:10px;margin-bottom:8px">
       <div class="row jb mb8">
-        <div style="font-size:14px${t.status==='done'?';text-decoration:line-through;color:var(--muted)':''}">${esc(t.name)}</div>
+        <div style="font-size:14px${tk.status==='done'?';text-decoration:line-through;color:var(--muted)':''}">${esc(tk.name)}</div>
         <div class="row g8 xs">
-          <span class="muted">预 ${t.estimatedMin} 分</span>
-          <span class="muted">实 ${act ? Math.round(act/60)+' 分' : '--'}</span>
+          <span class="muted">${t('review.est')} ${tk.estimatedMin} ${t('today.min')}</span>
+          <span class="muted">${t('review.act')} ${act ? Math.round(act/60)+' '+t('today.min') : '--'}</span>
           <span style="color:${dc}">${diffTxt}</span>
         </div>
       </div>
       ${tagsRow}
     </div>`;
-  }).join('') : '<div class="muted sm" style="padding:8px 0">当日无任务</div>';
+  }).join('') : `<div class="muted sm" style="padding:8px 0">${t('review.noTasks')}</div>`;
 
   const journalLen = (data.journal || '').length;
 
   el.innerHTML = `
     <div class="card">
       <div class="row jb mb12">
-        <div class="sec-title" style="margin:0">任务完成情况</div>
+        <div class="sec-title" style="margin:0">${t('review.taskStatus')}</div>
         <div class="row g8 items-center">
           <div class="pbar" style="width:80px"><div class="pfill" style="width:${pct}%"></div></div>
           <span class="xs muted">${done}/${total} &nbsp;${pct}%</span>
@@ -1668,7 +1950,7 @@ function buildReviewBody(k) {
       <div>${tasksHTML}</div>
     </div>
     ${journalCardHTML(k, journalLen, data.journal || '')}
-    <button class="btn btn-s" style="width:100%;margin-bottom:16px" onclick="exportXLSX()"><i data-lucide="download" style="width:14px;height:14px"></i> 导出 XLSX</button>`;
+    <button class="btn btn-s" style="width:100%;margin-bottom:16px" onclick="exportXLSX()"><i data-lucide="download" style="width:14px;height:14px"></i> ${t('review.export')}</button>`;
   if (window.lucide) lucide.createIcons();
 }
 
@@ -1678,23 +1960,23 @@ function buildReviewBody(k) {
 function journalCardHTML(k, len, val) {
   return `<div class="card">
     <div class="row jb mb8">
-      <div class="sec-title" style="margin:0">今日随想</div>
-      <div id="journalCount" class="xs muted">${len} 字</div>
+      <div class="sec-title" style="margin:0">${t('review.journal')}</div>
+      <div id="journalCount" class="xs muted">${len} ${t('review.chars')}</div>
     </div>
     <div style="position:relative">
       <textarea id="journalTA" data-key="${k}"
         style="width:100%;min-height:140px;margin-top:8px;padding-bottom:44px"
-        placeholder="今天完成了什么？有什么收获？明天有什么计划..."
+        placeholder="${t('review.journalHint')}"
         oninput="saveJournal('${k}');updateJournalCount()">${val}</textarea>
-      <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="语音输入"><i data-lucide="mic" style="width:16px;height:16px"></i></button>
+      <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="${t('review.voiceInput')}"><i data-lucide="mic" style="width:16px;height:16px"></i></button>
     </div>
     <button id="aiReviewBtn" class="btn btn-p" style="width:100%;margin-top:12px"
       onclick="aiReview('${k}')"
       ${aiConfigured() ? '' : 'disabled'}
-    >${aiConfigured() ? '✨ AI帮我复盘今天' : '请先在设置中配置 API Key'}</button>
-    ${location.protocol === 'file:' ? '<div class="xs mt8" style="color:#f59e0b;line-height:1.6;text-align:center">⚠ 检测到通过本地文件打开，AI 功能可能因跨域限制无法使用。请通过服务器访问，或直接访问线上版本</div>' : ''}
+    >${aiConfigured() ? t('review.aiBtn') : t('review.noKey')}</button>
+    ${location.protocol === 'file:' ? `<div class="xs mt8" style="color:#f59e0b;line-height:1.6;text-align:center">${t('review.fileWarning')}</div>` : ''}
     <div id="aiResultCard" style="display:none;margin-top:12px">
-      <div class="xs muted mb8" style="display:flex;align-items:center;gap:6px"><i data-lucide="sparkles" style="width:12px;height:12px;color:var(--accent)"></i>AI复盘（可直接编辑）</div>
+      <div class="xs muted mb8" style="display:flex;align-items:center;gap:6px"><i data-lucide="sparkles" style="width:12px;height:12px;color:var(--accent)"></i>${t('review.aiLabel')}</div>
       <textarea id="aiResultTA" style="width:100%;min-height:120px;line-height:1.7" placeholder=""></textarea>
     </div>
   </div>`;
@@ -1709,35 +1991,41 @@ async function aiReview(k) {
   const resultTA   = document.getElementById('aiResultTA');
 
   btn.disabled    = true;
-  btn.textContent = 'AI思考中...';
+  btn.textContent = t('review.aiThinking');
 
   const data  = getDay(k);
   const s     = getSettings();
   const tasks = data?.tasks || [];
-  const done  = tasks.filter(t => t.status === 'done').length;
+  const done  = tasks.filter(tk => tk.status === 'done').length;
   const total = tasks.length;
   const pct   = total ? Math.round(done / total * 100) : 0;
 
   const taskLines = tasks.length
-    ? tasks.map(t => {
-        const est  = t.estimatedMin;
-        const act  = t.actualSec != null ? Math.round(t.actualSec / 60) : null;
+    ? tasks.map(tk => {
+        const est  = tk.estimatedMin;
+        const act  = tk.actualSec != null ? Math.round(tk.actualSec / 60) : null;
         const diff = act != null ? act - est : null;
-        const diffTxt = diff == null ? '未计时'
-          : diff > 0  ? `超出${diff}分`
-          : diff < 0  ? `节省${Math.abs(diff)}分`
-          : '刚好';
-        const tags = [...(t.tags || []), ...(t.reviewTags || [])].join('、');
-        return `- ${t.name}（预估${est}分 / 实际${act != null ? act + '分' : '--'} / ${diffTxt}${tags ? ' / 标签：' + tags : ''}）[${t.status === 'done' ? '已完成' : '未完成'}]`;
+        const diffTxt = diff == null ? t('review.notTimed')
+          : diff > 0  ? `${t('review.exceeded')}${diff}${t('today.min')}`
+          : diff < 0  ? `${t('review.saved')}${Math.abs(diff)}${t('today.min')}`
+          : t('review.justRight');
+        const tags = [...(tk.tags || []), ...(tk.reviewTags || [])].join(', ');
+        return `- ${tk.name} (${t('review.est')}${est}${t('today.min')} / ${t('review.act')}${act != null ? act + t('today.min') : '--'} / ${diffTxt}${tags ? ' / ' + tags : ''}) [${tk.status === 'done' ? t('review.completed') : t('review.notCompleted')}]`;
       }).join('\n')
-    : '无任务记录';
+    : 'No tasks';
 
   const journal = (data?.journal || '').trim();
 
-  const userContent =
-    `今天任务完成情况（${done}/${total}，完成率 ${pct}%）：\n${taskLines}\n\n今日随想：${journal || '（无）'}`;
+  const isEn = (getSettings().lang || 'en') === 'en';
+  const userContent = isEn
+    ? `Task completion today (${done}/${total}, ${pct}%):\n${taskLines}\n\nThoughts: ${journal || '(none)'}`
+    : `今天任务完成情况（${done}/${total}，完成率 ${pct}%）：\n${taskLines}\n\n今日随想：${journal || '（无）'}`;
 
-  const PERSONAS = {
+  const PERSONAS = isEn ? {
+    rational:    'You are a rigorous time management analyst. Use objective data, stay calm and rational. Point out specific time differences and patterns, give actionable improvement suggestions. 100-150 words.',
+    enthusiastic:'You are an energetic productivity coach. Be warm and positive. First acknowledge today\'s efforts, then encourage improvements. Make the user excited about tomorrow. 100-150 words.',
+    strict:      'You are a strict time management mentor. Be direct and blunt. Point out today\'s problems and procrastination. Push the user to reflect. End with one encouraging line. 100-150 words.'
+  } : {
     rational:    '你是一个严谨的时间管理分析师，用客观数据说话，语气冷静理性，指出具体的时间差数据和规律，给出可执行的改进建议，100-150字',
     enthusiastic:'你是一个充满活力的效率教练，语气热情积极，先肯定用户今天的努力，再用鼓励的方式指出可以改进的地方，让用户对明天充满期待，100-150字',
     strict:      '你是一个严格的时间管理导师，语气直接不客气，直接指出今天存在的问题和拖延行为，督促用户反思，但最后给出一句鼓励，100-150字'
@@ -1764,16 +2052,16 @@ async function aiReview(k) {
         ]
       })
     });
-    if (!res.ok) throw new Error(`请求失败 (${res.status})`);
+    if (!res.ok) throw new Error(`${t('review.reqFail')} (${res.status})`);
     const json = await res.json();
-    resultTA.value = json.choices?.[0]?.message?.content || '生成失败，请重试';
+    resultTA.value = json.choices?.[0]?.message?.content || t('review.genFail');
   } catch (e) {
-    resultTA.value = '请求出错：' + e.message;
+    resultTA.value = t('review.reqError') + ': ' + e.message;
   }
 
   resultCard.style.display = 'block';
   btn.disabled    = false;
-  btn.textContent = '重新生成';
+  btn.textContent = t('review.regenerate');
   if (window.lucide) lucide.createIcons();
 }
 
@@ -1786,7 +2074,7 @@ let _srActive = false;
 function toggleMic() {
   const supported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
   if (!supported) {
-    alert('您的浏览器不支持语音输入，请使用 Chrome 浏览器');
+    alert(t('review.speechNotSupported'));
     return;
   }
   _srActive ? _stopMic() : _startMic();
@@ -1795,7 +2083,7 @@ function toggleMic() {
 function _startMic() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   _sr = new SpeechRecognition();
-  _sr.lang = 'zh-CN';
+  _sr.lang = (getSettings().lang === 'en') ? 'en-US' : 'zh-CN';
   _sr.continuous = true;
   _sr.interimResults = false;
 
@@ -1837,11 +2125,11 @@ function _updateMicBtn(active) {
   if (!btn) return;
   if (active) {
     btn.classList.add('rec');
-    btn.title = '录音中...点击停止';
+    btn.title = t('mic.recording');
     btn.innerHTML = '<i data-lucide="mic-off" style="width:16px;height:16px"></i>';
   } else {
     btn.classList.remove('rec');
-    btn.title = '语音输入';
+    btn.title = t('mic.voiceInput');
     btn.innerHTML = '<i data-lucide="mic" style="width:16px;height:16px"></i>';
   }
   if (window.lucide) lucide.createIcons();
@@ -1861,11 +2149,11 @@ function renderAddTagArea() {
   const el = document.getElementById('addTagArea');
   if (!el) return;
   const custom = getCustomTaskTags();
-  const all = [...PRESET_TASK_TAGS, ...custom];
+  const all = [...getPresetTaskTags(), ...custom];
   el.innerHTML = all.map(tg =>
     `<span class="tag ${S.selAddTags.includes(tg)?'on':''}" onclick="toggleAddTag('${esc(tg)}')">#${esc(tg)}</span>`
   ).join('') +
-  `<span class="tag" onclick="toggleCustomAddInput()" style="color:var(--accent);border-color:var(--accent)">+ 自定义</span>`;
+  `<span class="tag" onclick="toggleCustomAddInput()" style="color:var(--accent);border-color:var(--accent)">${t('tag.custom')}</span>`;
 }
 
 function toggleAddTag(tg) {
@@ -1887,7 +2175,7 @@ function submitCustomAddTag() {
   const v = input.value.trim();
   if (!v) return;
   const arr = getCustomTaskTags();
-  if (!arr.includes(v) && !PRESET_TASK_TAGS.includes(v)) arr.push(v);
+  if (!arr.includes(v) && !getPresetTaskTags().includes(v)) arr.push(v);
   saveCustomTaskTagStore(arr);
   S.selAddTags.push(v);
   input.value = '';
@@ -1916,11 +2204,11 @@ function renderRevTagArea() {
   const el = document.getElementById('revTagArea');
   if (!el) return;
   const custom = getCustomRevTags();
-  const all = [...PRESET_REV_TAGS, ...custom];
+  const all = [...getPresetRevTags(), ...custom];
   el.innerHTML = all.map(tg =>
     `<span class="tag ${S.selRevTags.includes(tg)?'on':''}" onclick="toggleRevTag('${esc(tg)}')">${esc(tg)}</span>`
   ).join('') +
-  `<span class="tag" onclick="toggleCustomRevInput()" style="color:#60a5fa;border-color:#3b82f6">+ 自定义</span>`;
+  `<span class="tag" onclick="toggleCustomRevInput()" style="color:#60a5fa;border-color:#3b82f6">${t('tag.custom')}</span>`;
 }
 
 function toggleRevTag(tg) {
@@ -1942,7 +2230,7 @@ function submitCustomRevTag() {
   const v = input.value.trim();
   if (!v) return;
   const arr = getCustomRevTags();
-  if (!arr.includes(v) && !PRESET_REV_TAGS.includes(v)) arr.push(v);
+  if (!arr.includes(v) && !getPresetRevTags().includes(v)) arr.push(v);
   saveCustomRevTagStore(arr);
   S.selRevTags.push(v);
   input.value = '';
@@ -1961,8 +2249,8 @@ function skipReview() {
 function saveReview() {
   if (S.pendingRevId && S.selRevTags.length) {
     const data = getDay();
-    const t = data.tasks.find(t => t.id === S.pendingRevId);
-    if (t) { t.reviewTags = [...S.selRevTags]; saveDay(data); }
+    const tk = data.tasks.find(tk => tk.id === S.pendingRevId);
+    if (tk) { tk.reviewTags = [...S.selRevTags]; saveDay(data); }
   }
   skipReview();
 }
@@ -1970,8 +2258,8 @@ function saveReview() {
 // ─────────────────────────────────────────────────────────────
 function setReason(k, id, r) {
   const data = getDay(k);
-  const t = data.tasks.find(t => t.id === id);
-  if (t) { t.delayReason = t.delayReason === r ? '' : r; saveDay(data, k); }
+  const tk = data.tasks.find(tk => tk.id === id);
+  if (tk) { tk.delayReason = tk.delayReason === r ? '' : r; saveDay(data, k); }
   buildReviewBody(k);
 }
 
@@ -1985,19 +2273,19 @@ function saveJournal(k) {
 function updateJournalCount() {
   const v = document.getElementById('journalTA')?.value || '';
   const el = document.getElementById('journalCount');
-  if (el) el.textContent = `${v.length} 字`;
+  if (el) el.textContent = `${v.length} ${t('review.chars')}`;
 }
 
 // ─────────────────────────────────────────────────────────────
 // EXPORT XLSX
 // ─────────────────────────────────────────────────────────────
 function exportXLSX() {
-  if (!window.XLSX) { alert('SheetJS 未加载，请检查网络连接'); return; }
+  if (!window.XLSX) { alert(t('xlsx.sheetNotLoaded')); return; }
   const wb = XLSX.utils.book_new();
 
-  const r1 = [['日期','任务名称','状态','预计(分)','实际(分)','时间差(分)','超时原因']];
-  const r2 = [['日期','今日随想']];
-  const r3 = [['日期','任务数','完成数','总预计(分)','总实际(分)']];
+  const r1 = [[t('xlsx.date'),t('xlsx.taskName'),t('xlsx.status'),t('xlsx.estMin'),t('xlsx.actMin'),t('xlsx.diffMin'),t('xlsx.reason')]];
+  const r2 = [[t('xlsx.date'),t('xlsx.journal')]];
+  const r3 = [[t('xlsx.date'),t('xlsx.taskCount'),t('xlsx.doneCount'),t('xlsx.totalEst'),t('xlsx.totalAct')]];
 
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
@@ -2005,22 +2293,22 @@ function exportXLSX() {
     try {
       const data = JSON.parse(localStorage.getItem(k));
       const tasks = data.tasks || [];
-      const done = tasks.filter(t => t.status==='done');
-      tasks.forEach(t => {
-        const act = t.actualSec ? Math.round(t.actualSec/60) : '';
-        r1.push([k, t.name, t.status==='done'?'已完成':'未完成',
-          t.estimatedMin, act, act ? act-t.estimatedMin : '', t.delayReason||'']);
+      const done = tasks.filter(tk => tk.status==='done');
+      tasks.forEach(tk => {
+        const act = tk.actualSec ? Math.round(tk.actualSec/60) : '';
+        r1.push([k, tk.name, tk.status==='done'?t('xlsx.done'):t('xlsx.notDone'),
+          tk.estimatedMin, act, act ? act-tk.estimatedMin : '', tk.delayReason||'']);
       });
       if (data.journal) r2.push([k, data.journal]);
       r3.push([k, tasks.length, done.length,
-        tasks.reduce((a,t)=>a+t.estimatedMin,0),
-        done.reduce((a,t)=>a+Math.round((t.actualSec||0)/60),0)]);
+        tasks.reduce((a,tk)=>a+tk.estimatedMin,0),
+        done.reduce((a,tk)=>a+Math.round((tk.actualSec||0)/60),0)]);
     } catch(e) {}
   }
 
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(r1), '任务详情');
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(r2), '今日随想');
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(r3), '时间统计');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(r1), t('xlsx.sheet1'));
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(r2), t('xlsx.sheet2'));
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(r3), t('xlsx.sheet3'));
   XLSX.writeFile(wb, `tansy-planner-${dateKey()}.xlsx`);
 }
 
@@ -2037,6 +2325,16 @@ function renderSettings() {
     av.innerHTML = `<img src="${s.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
   } else {
     av.textContent = (s.username||'T')[0].toUpperCase();
+  }
+  // language buttons
+  const langZh = document.getElementById('langZh');
+  const langEn = document.getElementById('langEn');
+  if (langZh && langEn) {
+    [langZh, langEn].forEach(b => { b.style.background=''; b.style.borderColor=''; b.style.color=''; });
+    const activeLang = (s.lang || 'en') === 'zh' ? langZh : langEn;
+    activeLang.style.background = 'rgba(124,58,237,0.15)';
+    activeLang.style.borderColor = 'var(--accent)';
+    activeLang.style.color = 'var(--accent)';
   }
   // swatches
   document.querySelectorAll('.swatch').forEach(sw =>
@@ -2130,7 +2428,7 @@ const AI_PROVIDERS = {
   qwen:     { name:'通义千问', endpoint:'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', model:'qwen-turbo' },
   openai:   { name:'OpenAI',   endpoint:'https://api.openai.com/v1/chat/completions', model:'gpt-4o-mini' },
   deepseek: { name:'DeepSeek', endpoint:'https://api.deepseek.com/v1/chat/completions', model:'deepseek-chat' },
-  custom:   { name:'自定义' }
+  custom:   { name:'Custom' }
 };
 
 function getAiConfig() {
@@ -2150,9 +2448,9 @@ function onAiProviderChange(prov) {
   const info = document.getElementById('aiProviderInfo');
   if (!isCustom) {
     const p = AI_PROVIDERS[prov];
-    info.innerHTML = `接口：${p.endpoint}<br>模型：${p.model}`;
+    info.innerHTML = `${t('ai.endpoint')}: ${p.endpoint}<br>${t('ai.model')}: ${p.model}`;
   } else {
-    info.textContent = '请填写自定义接口地址和模型名称';
+    info.textContent = t('ai.customHint');
   }
   document.getElementById('aiKeyInput').dataset.prov = prov;
 }
@@ -2167,7 +2465,7 @@ function saveAiConfig() {
   }
   localStorage.setItem('ai_config', JSON.stringify(cfg));
   const hint = document.getElementById('aiSaveHint');
-  hint.textContent = '✓ 已保存';
+  hint.textContent = t('set.savedHint');
   hint.style.opacity = '1';
   setTimeout(() => { hint.style.opacity = '0'; }, 2000);
 }
@@ -2190,10 +2488,10 @@ function calcStats() {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(k)) continue;
     try {
       const data = JSON.parse(localStorage.getItem(k));
-      (data.tasks||[]).forEach(t => {
-        if (t.status === 'done' && t.actualSec) {
-          totalAct += t.actualSec;
-          totalEst += t.estimatedMin * 60;
+      (data.tasks||[]).forEach(tk => {
+        if (tk.status === 'done' && tk.actualSec) {
+          totalAct += tk.actualSec;
+          totalEst += tk.estimatedMin * 60;
         }
       });
     } catch(e) {}
@@ -2205,13 +2503,13 @@ function calcStats() {
 }
 
 function clearToday() {
-  if (!confirm('确定清除今日数据？')) return;
+  if (!confirm(t('set.confirmClearToday'))) return;
   localStorage.removeItem(dateKey());
   renderToday();
 }
 
 function clearAll() {
-  if (!confirm('确定清除所有数据？此操作不可撤销！')) return;
+  if (!confirm(t('set.confirmClearAll'))) return;
   const keys = [];
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
@@ -2250,6 +2548,7 @@ function init() {
   const s = getSettings();
   if (s.theme) applyTheme(s.theme, s.themeHover || '#6d28d9');
   applyMode(s.mode || 'dark');
+  applyLang();
   refreshNavAv(s);
 
   renderToday();
@@ -2264,23 +2563,23 @@ document.addEventListener('DOMContentLoaded', init);
 <nav id="tabBar">
   <button class="tab-item active" data-p="today">
     <span class="tab-icon">📋</span>
-    <span class="tab-label">今日</span>
+    <span class="tab-label" data-i18n="tab.today">Today</span>
   </button>
   <button class="tab-item" data-p="focus">
     <span class="tab-icon">⏱</span>
-    <span class="tab-label">专注</span>
+    <span class="tab-label" data-i18n="tab.focus">Focus</span>
   </button>
   <button class="tab-item" data-p="time">
     <span class="tab-icon">🕐</span>
-    <span class="tab-label">感知</span>
+    <span class="tab-label" data-i18n="tab.time">Time</span>
   </button>
   <button class="tab-item" data-p="review">
     <span class="tab-icon">📅</span>
-    <span class="tab-label">复盘</span>
+    <span class="tab-label" data-i18n="tab.review">Review</span>
   </button>
   <button class="tab-item" data-p="settings">
     <span class="tab-icon">⚙️</span>
-    <span class="tab-label">设置</span>
+    <span class="tab-label" data-i18n="tab.settings">Settings</span>
   </button>
 </nav>
 </body>
